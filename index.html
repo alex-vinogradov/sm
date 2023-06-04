@@ -113,31 +113,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="вступ" class="level2">
 <h2 class="anchored" data-anchor-id="вступ">Вступ</h2>
-<p>Як суб’єктивне відчуття стресу залежить від сенсу навчання.</p>
+<p>Як суб’єктивне відчуття стресу залежить від сенсу навчання. Спочатку обчислимо сумрні бали по обох методиках, скориставшись класичною вимірювальною моделлю, яку запропонував Р. Лікерт:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sm <span class="ot">&lt;-</span> <span class="fu">read_spss</span>(<span class="st">"sm.sav"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sm <span class="ot">&lt;-</span> <span class="fu">transform</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  sm,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">meaning =</span> <span class="dv">3</span> <span class="sc">-</span> (D1 <span class="sc">+</span> D2 <span class="sc">+</span> D3 <span class="sc">+</span> D4 <span class="sc">+</span> D5 <span class="sc">+</span> D6 <span class="sc">+</span> D7 <span class="sc">+</span> D8) <span class="sc">/</span> <span class="dv">8</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">pss =</span> B1 <span class="sc">+</span> B2 <span class="sc">+</span> B3 <span class="sc">-</span> B4 <span class="sc">-</span> B5 <span class="sc">+</span> B6 <span class="sc">-</span> B7 <span class="sc">-</span> B8 <span class="sc">+</span> B9 <span class="sc">+</span> B10 <span class="sc">+</span> <span class="dv">14</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">female =</span> gender <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Тепер з ціми змінними можна побудувати просту регресійну модель, в якій залежною змінною виступатиме суб’єктивний стрес, а незалежною – сенс навчання:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> pss <span class="sc">~</span> meaning,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sm</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "A1"                  "A2"                  "A3"                 
- [4] "A4"                  "A5"                  "B1"                 
- [7] "B2"                  "B3"                  "B4"                 
-[10] "B5"                  "B6"                  "B7"                 
-[13] "B8"                  "B9"                  "B10"                
-[16] "C1"                  "C2"                  "C3"                 
-[19] "C4"                  "C5"                  "C6"                 
-[22] "C7"                  "C8"                  "C9"                 
-[25] "C10"                 "C11"                 "C12"                
-[28] "D1"                  "D2"                  "D3"                 
-[31] "D4"                  "D5"                  "D6"                 
-[34] "D7"                  "D8"                  "ID"                 
-[37] "gender"              "year"                "faculty"            
-[40] "specialization"      "form"                "scholarship"        
-[43] "work"                "work_specialization" "being_student"      
-[46] "relationship"        "financial_state"     "social_bonds"       
-[49] "support"             "specialty_choice"    "efficacy"           
-[52] "career"             </code></pre>
+<pre><code>
+Call:
+lm(formula = pss ~ meaning, data = sm)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-19.9218  -5.0500  -0.4782   4.8044  18.9478 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  23.0609     0.3891  59.268  &lt; 2e-16 ***
+meaning      -2.2957     0.3424  -6.705 5.91e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 7.163 on 460 degrees of freedom
+Multiple R-squared:  0.08904,   Adjusted R-squared:  0.08706 
+F-statistic: 44.96 on 1 and 460 DF,  p-value: 5.906e-11</code></pre>
 </div>
 </div>
 </section>
