@@ -1,8 +1,32 @@
 ---
 title: "Стрес і сенс навчання"
 author: "Виноградов О.Г."
-format: html
+lang: uk-UA
+toc: true
+toc-depth: 3
+toc-location: left
+toc-title: Зміст
+author-title: Автор
+crossref:
+  tbl-title: Таблиця
+  tbl-prefix: Табл.
+  fig-title: Рисунок
+  fig-prefix: Рис.
+format:
+  html:
+    # css: styles.css
+    theme: Sandstone
+    monobackgroundcolor: "#FFFFDD"
 ---
 
 ## Вступ
+
+Як суб'єктивне відчуття стресу залежить від сенсу навчання.
+
+```{r}
+library(haven)
+
+sm <- read_spss("sm.sav")
+names(sm)
+```
 
