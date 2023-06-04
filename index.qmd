@@ -15,7 +15,7 @@ crossref:
 format:
   html:
     css: styles.css
-    theme: Cyborg
+    theme: cyborg
     monobackgroundcolor: "#000040"
 ---
 
@@ -45,5 +45,11 @@ model_1 <- lm(
 )
 
 summary(model_1)
+```
+
+А тепер побудуємо гістограму
+
+```{r}
+hist(sm$meaning)
 ```
 
