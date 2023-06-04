@@ -15,8 +15,8 @@ crossref:
 format:
   html:
     # css: styles.css
-    theme: Sandstone
-    monobackgroundcolor: "#FFFFDD"
+    theme: Cyborg
+    monobackgroundcolor: "#000040"
 ---
 
 ## Вступ
